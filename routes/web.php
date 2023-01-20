@@ -1,5 +1,13 @@
 <?php
 
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ProveedoreController;
+use App\Http\Controllers\CompraController;
+use App\Http\Controllers\TpagoController;
+use App\Http\Controllers\VentaController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +24,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//rutas para administrador
+Route::resource('control/administrador/productos/catalogos', CategoriaController::class)
+->names('control.administrador.productos.catalogos');
+Route::resource('control/administrador/categorias', CatalogoController::class)
+->names('control.administrador.productos.categorias');
+//ruta para usuario
+Route::resource('control/usuarios', UsuarioController::class)
+->names('control.usuarios');
+//rutas para compras
+Route::resource('control/compras/proveedores', ProveedoreController::class)
+->names('control.compras.proveedores');
+Route::resource('control/compras/ingresos', CompraController::class)
+->names('control.compras.ingresos');
+//ruta para tipos de pago
+Route::resource('control/tipospago', TpagoController::class)
+->names('control.tipospago');
+//rutas para vendedor
+Route::resource('control/vendedor/ventas', VentaController::class)
+->names('control.vendedor.ventas');
