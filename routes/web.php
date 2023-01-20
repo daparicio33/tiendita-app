@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/control', function () {
     return view('welcome');
 });
 
@@ -30,10 +30,10 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //rutas para administrador
-Route::resource('control/administrador/productos/catalogos', CategoriaController::class)
-->names('control.administrador.productos.catalogos');
-Route::resource('control/administrador/categorias', CatalogoController::class)
+Route::resource('control/administrador/productos/categorias', CategoriaController::class)
 ->names('control.administrador.productos.categorias');
+Route::resource('control/administrador/productos/catalogos', CatalogoController::class)
+->names('control.administrador.productos.catalogos');
 //ruta para usuario
 Route::resource('control/usuarios', UsuarioController::class)
 ->names('control.usuarios');

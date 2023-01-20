@@ -312,40 +312,68 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text' => 'ADMINISTRADOR',
-            'url'  => '',
+            'text' => 'ADMINISTRADOR',            
             'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'USUARIOS',
-            'url'  => '',
-            'icon' => 'fa-solid fa-users',
-        ],
-        [
-            'text' => 'COMPRAS',
-            'icon' => 'fa-solid fa-cash-register',
-            'submenu' => [
+            'submenu'=>[
                 [
-                    'text' => 'Proveedores',
-                    'icon' => '',
-                    'url' => '',
+                    'text'=>'Productos',
+                    'icon'=>'fas fa-folder-open',
+                    'submenu'=>[
+                        [
+                            'text'=>'Categorias',
+                            'icon'=>'fas fa-list-ol',
+                            'url'=>'control/administrador/productos/categorias',
+                        ],
+                        [
+                            'text'=>'Catalogos',
+                            'icon'=>'fas fa-cart-arrow-down',
+                            'url'=>'control/administrador/productos/catalogos',
+                        ]
+                    ],
                 ],
                 [
-                    'text' => 'Ingresos',
+                    'text' => 'Usuarios',
+                    'url'  => '',
+                    'icon' => 'fa-solid fa-users',
+                ],
+                [
+                    'text' => 'Compras',
+                    'icon' => 'fa-solid fa-cash-register',
+                    'submenu' => [
+                        [
+                            'text' => 'Proveedores',
+                            'icon' => '',
+                            'url' => 'asd',
+                        ],
+                        [
+                            'text' => 'Ingresos',
+                            'icon' => '',
+                            'url' => 'asd',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Tipos de pago',
                     'icon' => '',
-                    'url' => '',
+                    'url' => 'asd',
                 ],
             ],
         ],
         [
-            'text' => 'Tipos de pago',
-            'icon' => '',
-            'url' => '',
-        ],
-        [
             'text' => 'VENDEDOR',
-            'icon' => '',
-            'url' => '',
+            'icon' => 'fas fa-store',
+            'submenu' => [
+                [
+                    'text' => 'Ventas',
+                    'icon' => '',
+                    'url' => '',
+                ],
+                [
+                    'text' => 'Clientes',
+                    'icon' => '',
+                    'url' => '',
+                ]
+            ],
         ],
     ],
 
