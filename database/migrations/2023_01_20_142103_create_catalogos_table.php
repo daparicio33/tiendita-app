@@ -16,7 +16,9 @@ class CreateCatalogosTable extends Migration
         Schema::create('catalogos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->decimal('precio', 3, 2);
+            $table->decimal('precio', 10, 2);
+            $table->unsignedBigInteger('catalogo_id');
+            $table->foreign('catalogo_id')->references('id')->on('catalogos');
             $table->timestamps();
         });
     }

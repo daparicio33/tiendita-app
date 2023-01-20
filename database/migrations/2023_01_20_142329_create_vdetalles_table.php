@@ -19,8 +19,8 @@ class CreateVdetallesTable extends Migration
             $table->foreign('venta_id')->references('id')->on('ventas');
             $table->unsignedBigInteger('catalogo_id');
             $table->foreign('catalogo_id')->references('id')->on('catalogos');
-            $table->decimal('cantidad', 4, 0);
-            $table->decimal('precio', 3, 0);
+            $table->decimal('cantidad', 10, 0);
+            $table->decimal('precio', 10, 2);
             $table->timestamps();
         });
     }

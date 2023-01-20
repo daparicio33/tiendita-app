@@ -19,8 +19,8 @@ class CreateCdetallesTable extends Migration
             $table->foreign('compra_id')->references('id')->on('compras');
             $table->unsignedBigInteger('catalogo_id');
             $table->foreign('catalogo_id')->references('id')->on('catalogos');
-            $table->decimal('cantidad',4, 0);
-            $table->decimal('precio', 3, 2);
+            $table->decimal('cantidad',10, 0);
+            $table->decimal('precio', 12, 2);
             $table->timestamps();
         });
     }

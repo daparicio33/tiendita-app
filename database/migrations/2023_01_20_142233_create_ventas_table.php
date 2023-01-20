@@ -21,7 +21,10 @@ class CreateVentasTable extends Migration
             $table->foreign('mpago_id')->references('id')->on('mpagos');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->decimal('total', 8, 2);
+            $table->decimal('total', 12, 2);
+            $table->string('codComprobante');
+            $table->string('tipoComprobante');
+            $table->date('fecha');
             $table->timestamps();
         });
     }

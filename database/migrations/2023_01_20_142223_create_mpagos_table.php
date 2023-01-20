@@ -15,7 +15,7 @@ class CreateMpagosTable extends Migration
     {
         Schema::create('mpagos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('nombre')->unique();
             $table->timestamps();
         });
     }
