@@ -9,7 +9,7 @@
     <h5>Todos los productos</h5>
     <a href="{{route('control.administrador.productos.catalogos.create')}}">
       <button class='btn btn-primary'>
-        <i class='fas fa-folder-open'></i> Registrar nuevo cliente
+        <i class='fas fa-folder-open'></i> Registrar nuevo producto
       </button>
     </a>
   </div>
@@ -20,6 +20,7 @@
           <th>Id</th>
           <th>Nombre</th>
           <th>Precio</th>
+          <th>Categoria</th>
         </tr>
       </thead>
     <tbody>
@@ -28,6 +29,7 @@
     <td>{{ $catalogo->id }}</td>
    <td>{{$catalogo->nombre}}</td>
    <td>{{$catalogo->precio}}</td>
+   <td>{{ $catalogo->categoria->nombre }}</td>
    <td style="text-align: center; width: 160px">
     <td>
       <a href="{{ route('control.administrador.productos.catalogos.edit', $catalogo->id) }}">

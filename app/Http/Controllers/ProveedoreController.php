@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proveedore;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ProveedoreController extends Controller
 {
@@ -14,7 +16,8 @@ class ProveedoreController extends Controller
     public function index()
     {
         //
-        return view('control.compras.proveedores.index');
+        $proveedores = Proveedore::all();
+        return view('control.compras.proveedores.index', compact('proveedores'));
     }
 
     /**
@@ -25,6 +28,8 @@ class ProveedoreController extends Controller
     public function create()
     {
         //
+        $proveedore = new Proveedore();
+        return view('control.compras.proveedores.create', compact('proveedore'));
     }
 
     /**
@@ -36,6 +41,14 @@ class ProveedoreController extends Controller
     public function store(Request $request)
     {
         //
+        $proveedore = new Proveedore();
+        $proveedore->nombre = $request->nombre;
+        $proveedore->Ruc = $request->Ruc;
+        $proveedore->contacto = $request->contacto;
+        $proveedore->direccion = $request->direccion;
+        $proveedore->telefono = $request->telefono;
+        $proveedore->save();
+        return Redirect::route('control.compras.proveedores.index');
     }
 
     /**
@@ -58,6 +71,8 @@ class ProveedoreController extends Controller
     public function edit($id)
     {
         //
+        $proveedore = Proveedore::findOrFail($id);
+        return view('control.compras.proveedores.edit', compact('proveedore'));
     }
 
     /**
@@ -70,6 +85,14 @@ class ProveedoreController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $proveedore = Proveedore::findOrFail($id);
+        $proveedore->nombre = $request->nombre;
+        $proveedore->Ruc = $request->Ruc;
+        $proveedore->contacto = $request->contacto;
+        $proveedore->direccion = $request->direccion;
+        $proveedore->telefono = $request->telefono;
+        $proveedore->update();
+        return Redirect::route('control.compras.proveedores.index');
     }
 
     /**
@@ -81,5 +104,8 @@ class ProveedoreController extends Controller
     public function destroy($id)
     {
         //
+        $proveedore = Proveedore::findOrFail($id);
+        $proveedore->delete();
+        return Redirect::route('control.compras.proveedores.index');
     }
 }

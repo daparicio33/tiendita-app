@@ -17,8 +17,8 @@ class CreateCatalogosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->decimal('precio', 10, 2);
-            $table->unsignedBigInteger('catalogo_id');
-            $table->foreign('catalogo_id')->references('id')->on('catalogos');
+            $table->unsignedBigInteger('categoria_id');
+            $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->timestamps();
         });
     }

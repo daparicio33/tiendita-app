@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mpago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class TpagoController extends Controller
 {
@@ -14,7 +16,8 @@ class TpagoController extends Controller
     public function index()
     {
         //
-        return view('control.tipospago.index');
+        $mpagos = Mpago::all();
+        return view('control.tipospago.index', compact('mpagos'));
     }
 
     /**
@@ -25,6 +28,8 @@ class TpagoController extends Controller
     public function create()
     {
         //
+        $mpago = new Mpago();
+        return view('control.tipospago.create', compact('mpago'));
     }
 
     /**
@@ -36,6 +41,10 @@ class TpagoController extends Controller
     public function store(Request $request)
     {
         //
+        $mpago = new Mpago();
+        $mpago->nombre = $request->nombre;
+        $mpago->save();
+        return Redirect::route('control.tipospago.index');
     }
 
     /**
@@ -58,6 +67,8 @@ class TpagoController extends Controller
     public function edit($id)
     {
         //
+        $mpago = Mpago::findOrFail($id);
+        return view('control.tipospago.edit', compact('mpago'));
     }
 
     /**
@@ -70,6 +81,10 @@ class TpagoController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $mpago = Mpago::findOrFail($id);
+        $mpago->nombre = $request->nombre;
+        $mpago->update();
+        return Redirect::route('control.tipospago.index');
     }
 
     /**
@@ -81,5 +96,8 @@ class TpagoController extends Controller
     public function destroy($id)
     {
         //
+        $mpago = Mpago::findOrFail($id);
+        $mpago->delete();
+        return Redirect::route('control.tipospago.index');
     }
 }

@@ -14,4 +14,7 @@ class Catalogo extends Model
     public function cdetalles(){
         return $this->hasMany(Cdetalle::class);
     }
+    public function categoria(){
+        return $this->belongsTo(Categoria::class);
+    }
 }

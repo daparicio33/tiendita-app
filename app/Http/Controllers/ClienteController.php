@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ClienteController extends Controller
 {
@@ -14,7 +16,8 @@ class ClienteController extends Controller
     public function index()
     {
         //
-        return view('');
+        $clientes = Cliente::all();
+        return view('control.vendedor.clientes.index', compact('clientes'));
     }
 
     /**
@@ -25,6 +28,8 @@ class ClienteController extends Controller
     public function create()
     {
         //
+        $cliente = new Cliente();
+        return view('control.vendedor.clientes.create', compact('cliente'));
     }
 
     /**
@@ -36,6 +41,13 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         //
+        $cliente = new Cliente();
+        $cliente->nombre = $request->nombre;
+        $cliente->dniRuc = $request->dniRuc;
+        $cliente->direccion = $request->direccion;
+        $cliente->telefono = $request->telefono;
+        $cliente->save();
+        return Redirect::route('control.vendedor.clientes.index');
     }
 
     /**
@@ -58,6 +70,8 @@ class ClienteController extends Controller
     public function edit($id)
     {
         //
+        $cliente = Cliente::findOrFail($id);
+        return view('control.vendedor.clientes.edit', compact('cliente'));
     }
 
     /**
@@ -70,6 +84,13 @@ class ClienteController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $cliente = Cliente::findOrFail($id);
+        $cliente->nombre = $request->nombre;
+        $cliente->dniRuc = $request->dniRuc;
+        $cliente->direccion = $request->direccion;
+        $cliente->telefono = $request->telefono;
+        $cliente->update();
+        return Redirect::route('control.vendedor.clientes.index');
     }
 
     /**
@@ -81,5 +102,8 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         //
+        $cliente = Cliente::findOrFail($id);
+        $cliente->delete();
+        return Redirect::route('control.vendedor.clientes.index');
     }
 }

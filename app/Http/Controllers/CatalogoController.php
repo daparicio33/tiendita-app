@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Catalogo;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CatalogoController extends Controller
 {
@@ -14,7 +17,8 @@ class CatalogoController extends Controller
     public function index()
     {
         //
-        return view('control.administrador.productos.catalogos.index');
+        $catalogos = Catalogo::all();
+        return view('control.administrador.productos.catalogos.index', compact('catalogos'));
     }
 
     /**
@@ -25,6 +29,9 @@ class CatalogoController extends Controller
     public function create()
     {
         //
+        $catalogo = new Catalogo();
+        $categoria = Categoria::pluck('nombre','id');
+        return view('control.administrador.productos.catalogos.create', compact('catalogo', 'categoria'));
     }
 
     /**
@@ -36,6 +43,12 @@ class CatalogoController extends Controller
     public function store(Request $request)
     {
         //
+        $catalogo = new Catalogo();
+        $catalogo->nombre = $request->nombre;
+        $catalogo->precio = $request->precio;
+        $catalogo->categoria_id = $request->categoria_id;
+        $catalogo->save();
+        return Redirect::route('control.administrador.productos.catalogos.index');
     }
 
     /**
@@ -58,6 +71,9 @@ class CatalogoController extends Controller
     public function edit($id)
     {
         //
+        $catalogo = Catalogo::findOrFail($id);
+        $categoria = Categoria::pluck('nombre','id');
+        return view('control.administrador.productos.catalogos.edit', compact('catalogo', 'categoria'));
     }
 
     /**
@@ -70,6 +86,12 @@ class CatalogoController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $catalogo = Catalogo::findOrFail($id);
+        $catalogo->nombre = $request->nombre;
+        $catalogo->precio = $request->precio;
+        $catalogo->categoria_id = $request->categoria_id;
+        $catalogo->update();
+        return Redirect::route('control.administrador.productos.catalogos.index');
     }
 
     /**
@@ -81,5 +103,8 @@ class CatalogoController extends Controller
     public function destroy($id)
     {
         //
+        $catalogo = Catalogo::findOrFail($id);
+        $catalogo->delete();
+        return Redirect::route('control.administrador.productos.catalogos.index');
     }
 }
