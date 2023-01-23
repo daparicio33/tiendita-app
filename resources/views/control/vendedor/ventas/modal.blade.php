@@ -1,5 +1,5 @@
-{!! Form::open(['route'=>['control.administrador.productos.catalogos.destroy',$catalogo->id],'method'=>'delete']) !!}
-<div class="modal fade" id="modal-delete-{{ $catalogo->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{!! Form::open(['route'=>['control.vendedor.ventas.destroy',$venta->id],'method'=>'delete']) !!}
+<div class="modal fade" id="modal-delete-{{ $venta->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -12,7 +12,7 @@
           </button>
         </div>
         <div class="modal-body">
-          ¿Esta seguro de que desea eliminar el producto?
+          ¿Esta seguro de que desea eliminar la venta?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">

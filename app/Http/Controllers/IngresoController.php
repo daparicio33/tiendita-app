@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Compra;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class IngresoController extends Controller
 {
@@ -14,7 +16,8 @@ class IngresoController extends Controller
     public function index()
     {
         //
-        return view('control.compras.ingresos.index');
+        $ingresos = Compra::all();
+        return view('control.compras.ingresos.index', compact('ingresos'));
     }
 
     /**
@@ -25,6 +28,8 @@ class IngresoController extends Controller
     public function create()
     {
         //
+        $ingreso = new Compra();
+        return view('control.compras.ingresos.create', compact('ingreso'));
     }
 
     /**
@@ -36,6 +41,14 @@ class IngresoController extends Controller
     public function store(Request $request)
     {
         //
+        $ingreso = new Compra();
+        $ingreso->fecha = $request->fecha;
+        $ingreso->user_id = $request->user_id;
+        $ingreso->proveedore_id = $request->proveedore->id;
+        $ingreso->codComprobante = $request->codComprobante;
+        $ingreso->tipoComprobante = $request->tipoComprobante;
+        $ingreso->save();
+        return Redirect::route('control.compras.ingresos.index');
     }
 
     /**
@@ -58,6 +71,8 @@ class IngresoController extends Controller
     public function edit($id)
     {
         //
+        $ingreso = Compra::findOrFail($id);
+        return view('control.compras.ingresos.edit', compact('ingreso'));
     }
 
     /**
@@ -70,6 +85,14 @@ class IngresoController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $ingreso = Compra::findOrFaild($id);
+        $ingreso->fecha = $request->fecha;
+        $ingreso->user_id = $request->user_id;
+        $ingreso->proveedore_id = $request->proveedore->id;
+        $ingreso->codComprobante = $request->codComprobante;
+        $ingreso->tipoComprobante = $request->tipoComprobante;
+        $ingreso->update();
+        return Redirect::route('control.compras.ingresos.index');
     }
 
     /**
@@ -81,5 +104,8 @@ class IngresoController extends Controller
     public function destroy($id)
     {
         //
+        $ingreso = Compra::findOrFaild($id);
+        $ingreso -> delete();
+        return Redirect::route('control.compras.ingresos.index');
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CategoriaController extends Controller
 {
@@ -14,7 +16,8 @@ class CategoriaController extends Controller
     public function index()
     {
         //
-        return view('control.administrador.productos.categorias.index');
+        $categorias = Categoria::all();
+        return view('control.administrador.productos.categorias.index', compact('categorias'));
     }
 
     /**
@@ -25,6 +28,8 @@ class CategoriaController extends Controller
     public function create()
     {
         //
+        $categoria = new Categoria();
+        return view('control.administrador.productos.categorias.create', compact('categoria'));
     }
 
     /**
@@ -36,6 +41,10 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         //
+        $categoria = new Categoria();
+        $categoria->nombre = $request->nombre;
+        $categoria->save();
+        return Redirect::route('control.administrador.productos.categorias.index');
     }
 
     /**
@@ -58,6 +67,8 @@ class CategoriaController extends Controller
     public function edit($id)
     {
         //
+        $categoria = Categoria::findOrFail($id);
+        return view('control.administrador.productos.categorias.edit', compact('categoria'));
     }
 
     /**
@@ -70,6 +81,10 @@ class CategoriaController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $categoria = Categoria::findOrFail($id);
+        $categoria ->nombre = $request->nombre;
+        $categoria -> update();
+        return Redirect::route('control.administrador.productos.categorias.index');
     }
 
     /**
@@ -81,5 +96,8 @@ class CategoriaController extends Controller
     public function destroy($id)
     {
         //
+        $categoria = Categoria::findOrFail($id);
+        $categoria ->delete();
+        return Redirect::route('control.administrador.productos.categorias.index');
     }
 }
