@@ -313,39 +313,68 @@ return [
         ],
         [
             'text' => 'ADMINISTRADOR',
-            'url'  => '',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'USUARIOS',
-            'url'  => '',
-            'icon' => 'fa-solid fa-users',
-        ],
-        [
-            'text' => 'COMPRAS',
-            'icon' => 'fa-solid fa-cash-register',
-            'submenu' => [
+            'icon' => 'fas fa-user-tie',
+            'submenu'=> [
                 [
-                    'text' => 'Proveedores',
-                    'icon' => '',
-                    'url' => '',
+                    'text' => 'USUARIOS',
+                    'icon' => 'fas fa-users',
+                    'route'  => 'control.administrador.usuarios.index',
                 ],
                 [
-                    'text' => 'Ingresos',
-                    'icon' => '',
-                    'url' => '',
+                    'text' => 'Productos',
+                    'icon' => 'fas fa-shopping-basket',
+                    'submenu' => [
+                        [
+                            'text'=>'Categorias',
+                            'icon'=>'fas fa-tags',
+                            'route'=>'control.administrador.productos.categorias.index'
+                        ],
+                        [
+                            'text'=>'Catalogos',
+                            'icon'=>'fas fa-newspaper',
+                            'route'=>'control.administrador.productos.catalogos.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'COMPRAS',
+                    'icon' => 'fas fa-cash-register',
+                    'submenu' => [
+                        [
+                            'text' => 'Proveedores',
+                            'icon' => 'fas fa-truck',
+                            'route' => 'control.administrador.compras.proveedores.index',
+                        ],
+                        [
+                            'text' => 'Ingresos',
+                            'icon' => 'fas fa-box-open',
+                            'route' => 'control.administrador.compras.ingresos.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Tipos de pago',
+                    'icon' => 'fas fa-credit-card',
+                    'route' => 'control.administrador.tipospago.index',
                 ],
             ],
         ],
-        [
-            'text' => 'Tipos de pago',
-            'icon' => '',
-            'url' => '',
-        ],
+       
         [
             'text' => 'VENDEDOR',
-            'icon' => '',
-            'url' => '',
+            'icon' => 'fas fa-user',
+            'submenu' => [
+                [
+                    'text' => 'Ventas',
+                    'icon' =>'fas fa-clipboard-list',
+                    'route' => 'control.vendedor.ventas.index',
+                ],
+                [
+                    'text' => 'Clientes',
+                    'icon' => 'fas fa-list',
+                    'route' => 'control.vendedor.clientes.index'
+                ]
+            ],
         ],
     ],
 
