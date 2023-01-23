@@ -35,17 +35,14 @@ Route::resource('control/administrador/productos/catalogos', CatalogoController:
 ->names('control.administrador.productos.catalogos');
 Route::resource('control/administrador/productos/categorias', CategoriaController::class)
 ->names('control.administrador.productos.categorias');
-//ruta para usuario
-Route::resource('control/usuarios', UsuarioController::class)
-->names('control.usuarios');
-//rutas para compras
-Route::resource('control/compras/proveedores', ProveedoreController::class)
-->names('control.compras.proveedores');
-Route::resource('control/compras/ingresos', IngresoController::class)
-->names('control.compras.ingresos');
-//ruta para tipos de pago
-Route::resource('control/tipospago', TpagoController::class)
-->names('control.tipospago');
+Route::resource('control/administrador/usuarios', UsuarioController::class)
+->names('control.administrador.usuarios');
+Route::resource('control/administrador/compras/proveedores', ProveedoreController::class)
+->names('control.administrador.compras.proveedores');
+Route::resource('control/administrador/compras/ingresos', IngresoController::class)
+->names('control.administrador.compras.ingresos');
+Route::resource('control/administrador/tipospago', TpagoController::class)
+->names('control.administrador.tipospago');
 //rutas para vendedor
 Route::resource('control/vendedor/ventas', VentaController::class)
 ->names('control.vendedor.ventas');

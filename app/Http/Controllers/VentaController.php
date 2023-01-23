@@ -47,16 +47,23 @@ class VentaController extends Controller
     public function store(Request $request)
     {
         //
-        $venta = new Venta();
-        $venta -> fecha = $request -> fecha;
-        $venta->cliente_id = $request->cliente_id;
-        $venta->mpago_id = $request->mpago_id;
-        $venta->user_id = $request->user_id;
-        $venta->total = $request->total;
-        $venta->codComprobante = $request->codComprobante;
-        $venta->tipoComprobante = $request->tipoComprobante;
-        $venta->save();
-        return Redirect::route('control.vendedor.ventas.index');
+        try {
+            $venta = new Venta();
+            $venta -> fecha = $request -> fecha;
+            $venta->cliente_id = $request->cliente_id;
+            $venta->mpago_id = $request->mpago_id;
+            $venta->user_id = $request->user_id;
+            $venta->total = $request->total;
+            $venta->codComprobante = $request->codComprobante;
+            $venta->tipoComprobante = $request->tipoComprobante;
+            $venta->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+        return Redirect::route('control.vendedor.ventas.index')
+        ->with('error','ocurrió un error al intentar guardar los datos');
+        }
+        return Redirect::route('control.vendedor.ventas.index')
+        ->with('info','los datos se guardaron correctamente');
     }
 
     /**
