@@ -1,4 +1,4 @@
-{!! Form::open(['route'=>['control.admnistrador.usuarios.destroy',$user->id],'method'=>'delete']) !!}
+{!! Form::open(['route'=>['control.administrador.usuarios.destroy',$user->id],'method'=>'delete']) !!}
 <div class="modal fade" id="modal-delete-{{ $user->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

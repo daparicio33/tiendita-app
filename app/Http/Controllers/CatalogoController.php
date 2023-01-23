@@ -127,12 +127,10 @@ class CatalogoController extends Controller
     {
         //
         try{
-            DB::beginTransaction();
             $catalogo = Catalogo::findOrFail($id);
             $catalogo->delete();
         } catch (\Throwable $th){
             //throw $th;
-            DB::rollBack();
             return Redirect::route('control.administrador.productos.catalogos.index')
             ->with('error','ocurrió un error al intentar actualizar los datos');
         }

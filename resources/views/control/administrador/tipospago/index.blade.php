@@ -13,6 +13,7 @@
       </button>
     </a>
   </div>
+  @include('layouts.info')
   <div class='card-body'>
     <table class="table">
       <thead>
@@ -26,7 +27,7 @@
     <td>{{$mpago->nombre}}</td>
    <td style="text-align: center; width: 160px">
     <td>
-      <a href="{{ route('control.tipospago.edit', $mpago->id) }}">
+      <a href="{{ route('control.administrador.tipospago.edit', $mpago->id) }}">
         <button class="btn btn-primary">
             <i class="far fa-edit"></i> Editar
         </button>
@@ -40,7 +41,7 @@
       </a>
     </td>
   </tr>
-  @include('control.tipospago.modal')
+  @include('control.administrador.tipospago.modal')
   @endforeach
 
     <tbody>

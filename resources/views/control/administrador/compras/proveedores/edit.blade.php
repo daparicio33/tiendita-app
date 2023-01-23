@@ -14,7 +14,7 @@
         {!! Form::label(null, 'nombre', [null]) !!}
         {!! Form::text('nombre', null, ['class'=>'form-control']) !!}
         {!! Form::label(null, 'Ruc', [null]) !!}
-        {!! Form::number('Ruc', null, ['class'=>'form-control']) !!}
+        {!! Form::text('Ruc', null, ['class'=>'form-control']) !!}
         {!! Form::label(null, 'contacto', [null]) !!}
         {!! Form::text('contacto', null, ['class'=>'form-control']) !!}
         {!! Form::label(null, 'direccion', [null]) !!}

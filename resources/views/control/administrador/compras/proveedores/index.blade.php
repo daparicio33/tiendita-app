@@ -34,7 +34,7 @@
    <td>{{$proveedore->telefono }}</td>
    <td style="text-align: center; width: 160px">
     <td>
-      <a href="{{ route('control.compras.proveedores.edit', $proveedore->id) }}">
+      <a href="{{ route('control.administrador.compras.proveedores.edit', $proveedore->id) }}">
         <button class="btn btn-primary">
             <i class="far fa-edit"></i> Editar
         </button>
