@@ -7,7 +7,7 @@
 <div class='card'>
   <div class='card-header'>
     <h5>Todos los proveedores</h5>
-    <a href="{{route('control.compras.proveedores.create')}}">
+    <a href="{{route('control.administrador.compras.proveedores.create')}}">
       <button class='btn btn-primary'>
         <i class='fas fa-folder-open'></i> Registrar nuevo proveedor
       </button>
@@ -35,7 +35,7 @@
    <td>{{$proveedore->telefono }}</td>
    <td style="text-align: center; width: 160px">
     <td>
-      <a href="{{ route('control.compras.proveedores.edit', $proveedore->id) }}">
+      <a href="{{ route('control.administrador.compras.proveedores.edit', $proveedore->id) }}">
         <button class="btn btn-primary">
             <i class="far fa-edit"></i> Editar
         </button>
@@ -49,7 +49,7 @@
       </a>
     </td>
   </tr>
-  @include('control.compras.proveedores.modal')
+  @include('control.administrador.compras.proveedores.modal')
   @endforeach
 
     <tbody>

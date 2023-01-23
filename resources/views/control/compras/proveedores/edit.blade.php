@@ -9,7 +9,7 @@
   <div class="card">
   </div>
      <div class="card-body">
-        {!! Form::model($proveedore,['route'=>['control.compras.proveedores.update', $proveedore->id],'method'=>'put']) !!}
+        {!! Form::model($proveedore,['route'=>['control.administrador.compras.proveedores.update', $proveedore->id],'method'=>'put']) !!}
         <p>Editar proveedor</p>
         {!! Form::label(null, 'nombre', [null]) !!}
         {!! Form::text('nombre', null, ['class'=>'form-control']) !!}

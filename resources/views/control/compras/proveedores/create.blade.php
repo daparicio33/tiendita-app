@@ -9,7 +9,7 @@
   <div class="card">
   </div>
      <div class="card-body">
-          {!! Form::open(['route'=>'control.compras.proveedores.store','method'=>'post']) !!}
+          {!! Form::open(['route'=>'control.administrador.compras.proveedores.store','method'=>'post']) !!}
           {{-- @if (isset($proveedore))
           <input type="hidden" value="{{ $proveedore->id }}" name="catalogo_d">
           @endif --}}

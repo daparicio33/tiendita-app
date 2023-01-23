@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/control', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
 Auth::routes();
 
@@ -39,6 +39,7 @@ Route::resource('control/administrador/usuarios', UsuarioController::class)
 ->names('control.administrador.usuarios');
 Route::resource('control/administrador/compras/proveedores', ProveedoreController::class)
 ->names('control.administrador.compras.proveedores');
+
 Route::resource('control/administrador/compras/ingresos', IngresoController::class)
 ->names('control.administrador.compras.ingresos');
 Route::resource('control/administrador/tipospago', TpagoController::class)

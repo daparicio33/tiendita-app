@@ -22,7 +22,7 @@ class ProveedoreController extends Controller
     {
         //
         $proveedores = Proveedore::all();
-        return view('control.compras.proveedores.index', compact('proveedores'));
+        return view('control.administrador.compras.proveedores.index', compact('proveedores'));
     }
 
     /**
@@ -34,7 +34,7 @@ class ProveedoreController extends Controller
     {
         //
         $proveedore = new Proveedore();
-        return view('control.compras.proveedores.create', compact('proveedore'));
+        return view('control.administrador.compras.proveedores.create', compact('proveedore'));
     }
 
     /**
@@ -59,10 +59,10 @@ class ProveedoreController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.compras.proveedores.index')
+            return Redirect::route('control.administrador.compras.proveedores.index')
             ->with('error','ocurrió un error al intentar guardar los datos');
         }
-        return Redirect::route('control.compras.proveedores.index')
+        return Redirect::route('control.administrador.compras.proveedores.index')
         ->with('info', 'los datos se guardaron correctamente');
     }
 
@@ -87,7 +87,7 @@ class ProveedoreController extends Controller
     {
         //
         $proveedore = Proveedore::findOrFail($id);
-        return view('control.compras.proveedores.edit', compact('proveedore'));
+        return view('control.administrador.compras.proveedores.edit', compact('proveedore'));
     }
 
     /**
@@ -113,10 +113,10 @@ class ProveedoreController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.compras.proveedores.index')
+            return Redirect::route('control.administrador.compras.proveedores.index')
             ->with('error','ocurrió un error al intentar actualizar los datos');
         }
-        return Redirect::route('control.compras.proveedores.index')
+        return Redirect::route('control.administrador.compras.proveedores.index')
         ->with('info', 'los datos se actualizaron correctamente');
     }
 
@@ -137,10 +137,10 @@ class ProveedoreController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.compras.proveedores.index')
+            return Redirect::route('control.administrador.compras.proveedores.index')
             ->with('error','ocurrió un error al intentar actualizar los datos');
         }
-        return Redirect::route('control.compras.proveedores.index')
+        return Redirect::route('control.administrador.compras.proveedores.index')
         ->with('info', 'los datos se actualizaron correctamente');
     }
 }
