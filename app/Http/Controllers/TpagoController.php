@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mpago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class TpagoController extends Controller
@@ -13,6 +14,10 @@ class TpagoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -41,10 +46,20 @@ class TpagoController extends Controller
     public function store(Request $request)
     {
         //
-        $mpago = new Mpago();
-        $mpago->nombre = $request->nombre;
-        $mpago->save();
-        return Redirect::route('control.tipospago.index');
+        try{
+            DB::beginTransaction();
+            $mpago = new Mpago();
+            $mpago->nombre = $request->nombre;
+            $mpago->save();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.tipospago.index')
+            ->with('error','ocurrió un error al intentar guardar los datos');
+        }
+        return Redirect::route('control.tipospago.index')
+        ->with('info', 'los datos se guardaron correctamente');
     }
 
     /**
@@ -81,10 +96,20 @@ class TpagoController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $mpago = Mpago::findOrFail($id);
-        $mpago->nombre = $request->nombre;
-        $mpago->update();
-        return Redirect::route('control.tipospago.index');
+        try{
+            DB::beginTransaction();
+            $mpago = Mpago::findOrFail($id);
+            $mpago->nombre = $request->nombre;
+            $mpago->update();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.tipospago.index')
+            ->with('error','ocurrió un error al intentar actualizar los datos');
+        }
+        return Redirect::route('control.tipospago.index')
+        ->with('info', 'los datos se actualizaron correctamente');
     }
 
     /**
@@ -96,8 +121,18 @@ class TpagoController extends Controller
     public function destroy($id)
     {
         //
-        $mpago = Mpago::findOrFail($id);
-        $mpago->delete();
-        return Redirect::route('control.tipospago.index');
+        try{
+            DB::beginTransaction();
+            $mpago = Mpago::findOrFail($id);
+            $mpago->delete();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.tipospago.index')
+            ->with('error','ocurrió un error al intentar eliminar los datos');
+        }
+        return Redirect::route('control.tipospago.index')
+        ->with('info', 'los datos se eliminaron correctamente');
     }
 }

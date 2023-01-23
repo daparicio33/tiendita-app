@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class ClienteController extends Controller
@@ -13,6 +14,10 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -41,13 +46,23 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         //
-        $cliente = new Cliente();
-        $cliente->nombre = $request->nombre;
-        $cliente->dniRuc = $request->dniRuc;
-        $cliente->direccion = $request->direccion;
-        $cliente->telefono = $request->telefono;
-        $cliente->save();
-        return Redirect::route('control.vendedor.clientes.index');
+        try{
+            DB::beginTransaction();
+            $cliente = new Cliente();
+            $cliente->nombre = $request->nombre;
+            $cliente->dniRuc = $request->dniRuc;
+            $cliente->direccion = $request->direccion;
+            $cliente->telefono = $request->telefono;
+            $cliente->save();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.vendedor.clientes.index')
+            ->with('error','ocurrió un error al intentar guardar los datos');
+        }
+        return Redirect::route('control.vendedor.clientes.index')
+        ->with('info', 'los datos se guardaron correctamente');
     }
 
     /**
@@ -84,13 +99,23 @@ class ClienteController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $cliente = Cliente::findOrFail($id);
-        $cliente->nombre = $request->nombre;
-        $cliente->dniRuc = $request->dniRuc;
-        $cliente->direccion = $request->direccion;
-        $cliente->telefono = $request->telefono;
-        $cliente->update();
-        return Redirect::route('control.vendedor.clientes.index');
+        try{
+            DB::beginTransaction();
+            $cliente = Cliente::findOrFail($id);
+            $cliente->nombre = $request->nombre;
+            $cliente->dniRuc = $request->dniRuc;
+            $cliente->direccion = $request->direccion;
+            $cliente->telefono = $request->telefono;
+            $cliente->update();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.vendedor.clientes.index')
+            ->with('error','ocurrió un error al intentar guardar los datos');
+        }
+        return Redirect::route('control.vendedor.clientes.index')
+        ->with('info', 'los datos se guardaron correctamente');
     }
 
     /**
@@ -102,8 +127,18 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         //
-        $cliente = Cliente::findOrFail($id);
-        $cliente->delete();
-        return Redirect::route('control.vendedor.clientes.index');
+        try{
+            DB::beginTransaction();
+            $cliente = Cliente::findOrFail($id);
+            $cliente->delete();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.vendedor.clientes.index')
+            ->with('error','ocurrió un error al intentar eliminar los datos');
+        }
+        return Redirect::route('control.vendedor.clientes.index')
+        ->with('info', 'los datos se eliminaron correctamente');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Catalogo;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class CatalogoController extends Controller
@@ -14,6 +15,10 @@ class CatalogoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -42,13 +47,22 @@ class CatalogoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $catalogo = new Catalogo();
-        $catalogo->nombre = $request->nombre;
-        $catalogo->precio = $request->precio;
-        $catalogo->categoria_id = $request->categoria_id;
-        $catalogo->save();
-        return Redirect::route('control.administrador.productos.catalogos.index');
+        try{
+            DB::beginTransaction();
+            $catalogo = new Catalogo();
+            $catalogo->nombre = $request->nombre;
+            $catalogo->precio = $request->precio;
+            $catalogo->categoria_id = $request->categoria_id;
+            $catalogo->save();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.administrador.productos.catalogos.index')
+            ->with('error','ocurrió un error al intentar guardar los datos');
+        }
+        return Redirect::route('control.administrador.productos.catalogos.index')
+        ->with('info', 'los datos se guardaron correctamente');
     }
 
     /**
@@ -86,12 +100,21 @@ class CatalogoController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $catalogo = Catalogo::findOrFail($id);
-        $catalogo->nombre = $request->nombre;
-        $catalogo->precio = $request->precio;
-        $catalogo->categoria_id = $request->categoria_id;
-        $catalogo->update();
-        return Redirect::route('control.administrador.productos.catalogos.index');
+        try{
+            DB::beginTransaction();
+            $catalogo = Catalogo::findOrFail($id);
+            $catalogo->nombre = $request->nombre;
+            $catalogo->precio = $request->precio;
+            $catalogo->categoria_id = $request->categoria_id;
+            $catalogo->update();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.administrador.productos.catalogos.index')
+            ->with('error','ocurrió un error al intentar actualizar los datos');
+        }
+        return Redirect::route('control.administrador.productos.catalogos.index')
+        ->with('info', 'los datos se guardaron correctamente');
     }
 
     /**
@@ -103,8 +126,17 @@ class CatalogoController extends Controller
     public function destroy($id)
     {
         //
-        $catalogo = Catalogo::findOrFail($id);
-        $catalogo->delete();
-        return Redirect::route('control.administrador.productos.catalogos.index');
+        try{
+            DB::beginTransaction();
+            $catalogo = Catalogo::findOrFail($id);
+            $catalogo->delete();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.administrador.productos.catalogos.index')
+            ->with('error','ocurrió un error al intentar actualizar los datos');
+        }
+        return Redirect::route('control.administrador.productos.catalogos.index')
+        ->with('info', 'los datos se eliminaron correctamente');;
     }
 }

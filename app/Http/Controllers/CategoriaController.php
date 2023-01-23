@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class CategoriaController extends Controller
@@ -13,6 +14,10 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -41,10 +46,20 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         //
-        $categoria = new Categoria();
-        $categoria->nombre = $request->nombre;
-        $categoria->save();
-        return Redirect::route('control.administrador.productos.categorias.index');
+        try{
+            DB::beginTransaction();
+            $categoria = new Categoria();
+            $categoria->nombre = $request->nombre;
+            $categoria->save();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.administrador.productos.categorias.index')
+            ->with('error','ocurrió un error al intentar guardar los datos');
+        }
+        return Redirect::route('control.administrador.productos.categorias.index')
+        ->with('info', 'los datos se guardaron correctamente');      
     }
 
     /**
@@ -81,10 +96,20 @@ class CategoriaController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $categoria = Categoria::findOrFail($id);
-        $categoria ->nombre = $request->nombre;
-        $categoria -> update();
-        return Redirect::route('control.administrador.productos.categorias.index');
+        try{
+            DB::beginTransaction();
+            $categoria = Categoria::findOrFail($id);
+            $categoria ->nombre = $request->nombre;
+            $categoria -> update();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.administrador.productos.categorias.index')
+            ->with('error','ocurrió un error al intentar actualizar los datos');
+        }
+        return Redirect::route('control.administrador.productos.categorias.index')
+        ->with('info', 'los datos se guardaron correctamente');     
     }
 
     /**
@@ -96,8 +121,18 @@ class CategoriaController extends Controller
     public function destroy($id)
     {
         //
-        $categoria = Categoria::findOrFail($id);
-        $categoria ->delete();
-        return Redirect::route('control.administrador.productos.categorias.index');
+        try{
+            DB::beginTransaction();
+            $categoria = Categoria::findOrFail($id);
+            $categoria ->delete();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.administrador.productos.categorias.index')
+            ->with('error','ocurrió un error al intentar eliminar los datos');
+        }
+        return Redirect::route('control.administrador.productos.categorias.index')
+        ->with('info', 'los datos se eliminaron correctamente');
     }
 }

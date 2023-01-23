@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Proveedore;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class ProveedoreController extends Controller
@@ -13,6 +14,10 @@ class ProveedoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -41,14 +46,24 @@ class ProveedoreController extends Controller
     public function store(Request $request)
     {
         //
-        $proveedore = new Proveedore();
-        $proveedore->nombre = $request->nombre;
-        $proveedore->Ruc = $request->Ruc;
-        $proveedore->contacto = $request->contacto;
-        $proveedore->direccion = $request->direccion;
-        $proveedore->telefono = $request->telefono;
-        $proveedore->save();
-        return Redirect::route('control.compras.proveedores.index');
+        try{
+            DB::beginTransaction();
+            $proveedore = new Proveedore();
+            $proveedore->nombre = $request->nombre;
+            $proveedore->Ruc = $request->Ruc;
+            $proveedore->contacto = $request->contacto;
+            $proveedore->direccion = $request->direccion;
+            $proveedore->telefono = $request->telefono;
+            $proveedore->save();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.compras.proveedores.index')
+            ->with('error','ocurrió un error al intentar guardar los datos');
+        }
+        return Redirect::route('control.compras.proveedores.index')
+        ->with('info', 'los datos se guardaron correctamente');
     }
 
     /**
@@ -85,14 +100,24 @@ class ProveedoreController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $proveedore = Proveedore::findOrFail($id);
-        $proveedore->nombre = $request->nombre;
-        $proveedore->Ruc = $request->Ruc;
-        $proveedore->contacto = $request->contacto;
-        $proveedore->direccion = $request->direccion;
-        $proveedore->telefono = $request->telefono;
-        $proveedore->update();
-        return Redirect::route('control.compras.proveedores.index');
+        try{
+            DB::beginTransaction();
+            $proveedore = Proveedore::findOrFail($id);
+            $proveedore->nombre = $request->nombre;
+            $proveedore->Ruc = $request->Ruc;
+            $proveedore->contacto = $request->contacto;
+            $proveedore->direccion = $request->direccion;
+            $proveedore->telefono = $request->telefono;
+            $proveedore->update();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.compras.proveedores.index')
+            ->with('error','ocurrió un error al intentar actualizar los datos');
+        }
+        return Redirect::route('control.compras.proveedores.index')
+        ->with('info', 'los datos se actualizaron correctamente');
     }
 
     /**
@@ -104,8 +129,18 @@ class ProveedoreController extends Controller
     public function destroy($id)
     {
         //
-        $proveedore = Proveedore::findOrFail($id);
-        $proveedore->delete();
-        return Redirect::route('control.compras.proveedores.index');
+        try{
+            DB::beginTransaction();
+            $proveedore = Proveedore::findOrFail($id);
+            $proveedore->delete();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.compras.proveedores.index')
+            ->with('error','ocurrió un error al intentar actualizar los datos');
+        }
+        return Redirect::route('control.compras.proveedores.index')
+        ->with('info', 'los datos se actualizaron correctamente');
     }
 }
