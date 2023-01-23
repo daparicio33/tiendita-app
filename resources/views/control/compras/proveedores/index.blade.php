@@ -13,6 +13,7 @@
       </button>
     </a>
   </div>
+  @include('layouts.app')
   <div class='card-body'>
     <table class="table">
       <thead>

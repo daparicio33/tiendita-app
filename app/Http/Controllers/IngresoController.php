@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Compra;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class IngresoController extends Controller
@@ -13,6 +14,10 @@ class IngresoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
     public function index()
     {
         //
@@ -41,14 +46,24 @@ class IngresoController extends Controller
     public function store(Request $request)
     {
         //
-        $ingreso = new Compra();
-        $ingreso->fecha = $request->fecha;
-        $ingreso->user_id = $request->user_id;
-        $ingreso->proveedore_id = $request->proveedore->id;
-        $ingreso->codComprobante = $request->codComprobante;
-        $ingreso->tipoComprobante = $request->tipoComprobante;
-        $ingreso->save();
-        return Redirect::route('control.compras.ingresos.index');
+        try{
+            DB::beginTransaction();
+            $ingreso = new Compra();
+            $ingreso->fecha = $request->fecha;
+            $ingreso->user_id = $request->user_id;
+            $ingreso->proveedore_id = $request->proveedore->id;
+            $ingreso->codComprobante = $request->codComprobante;
+            $ingreso->tipoComprobante = $request->tipoComprobante;
+            $ingreso->save();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.compras.ingresos.index')
+            ->with('error','ocurrió un error al intentar guardar los datos');
+        }
+        return Redirect::route('control.compras.ingresos.index')
+        ->with('info', 'los datos se guardaron correctamente');
     }
 
     /**
@@ -85,14 +100,24 @@ class IngresoController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $ingreso = Compra::findOrFaild($id);
-        $ingreso->fecha = $request->fecha;
-        $ingreso->user_id = $request->user_id;
-        $ingreso->proveedore_id = $request->proveedore->id;
-        $ingreso->codComprobante = $request->codComprobante;
-        $ingreso->tipoComprobante = $request->tipoComprobante;
-        $ingreso->update();
-        return Redirect::route('control.compras.ingresos.index');
+        try{
+            DB::beginTransaction();
+            $ingreso = Compra::findOrFaild($id);
+            $ingreso->fecha = $request->fecha;
+            $ingreso->user_id = $request->user_id;
+            $ingreso->proveedore_id = $request->proveedore->id;
+            $ingreso->codComprobante = $request->codComprobante;
+            $ingreso->tipoComprobante = $request->tipoComprobante;
+            $ingreso->update();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.compras.ingresos.index')
+            ->with('error','ocurrió un error al intentar actualizar los datos');
+        }
+        return Redirect::route('control.compras.ingresos.index')
+        ->with('info', 'los datos se actualizaron correctamente');
     }
 
     /**
@@ -104,8 +129,18 @@ class IngresoController extends Controller
     public function destroy($id)
     {
         //
-        $ingreso = Compra::findOrFaild($id);
-        $ingreso -> delete();
-        return Redirect::route('control.compras.ingresos.index');
+        try{
+            DB::beginTransaction();
+            $ingreso = Compra::findOrFaild($id);
+            $ingreso -> delete();
+            DB::commit();
+        } catch (\Throwable $th){
+            //throw $th;
+            DB::rollBack();
+            return Redirect::route('control.compras.ingresos.index')
+            ->with('error','ocurrió un error al intentar eliminar los datos');
+        }
+        return Redirect::route('control.compras.ingresos.index')
+        ->with('info', 'los datos se eliminaron correctamente');
     }
 }

@@ -13,6 +13,7 @@
       </button>
     </a>
   </div>
+  @include('layouts.info')
   <div class='card-body'>
     <table class="table">
       <thead>
