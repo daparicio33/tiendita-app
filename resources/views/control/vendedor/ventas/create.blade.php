@@ -30,6 +30,30 @@
                 {!! Form::label(null, 'Tipo de comprobante', [null]) !!}
                 {!! Form::text('tipoComprobante', $venta->tipoComprobante, ['class'=>'form-control']) !!}
                 </div>
+                <a class="btn btn-outline-primary mb-1" id="btn_add" type="button">
+                  <i class="fas fa-plus"></i>
+                </a>
+                <select id="catalogo"  class="form-control" aria-label="Example select with button addon">
+                  <option selected value="0">Elija...</option>
+                  @foreach ($catalogos as $catalogo)
+                    <option value="{{ $catalogo->id }}" >{{ $catalogo->nombre }} - {{ $catalogo->precio }}</option>
+                  @endforeach
+                </select>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        {{-- <th style="width: 4rem"></th> --}}
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                       {{--  <th></th> --}}
+                    </tr>
+                </thead>
+                <tbody id="cuerpo">
+                </tbody>
+            </table>
+        </div>
           </div>
           <div class="card-footer">
             <button class="btn btn-primary" type="submit">
@@ -41,4 +65,29 @@
      </div>
   </div>
 </div>
+@stop
+@section('js')
+<script>
+ const btn = document.getElementById('btn_add');
+ btn.addEventListener('click', function(){
+  const select= document.getElementById('catalogo');
+  const id = select.value;
+  const text = select.options[select.selectedIndex].text;
+  let data = text.split('-');
+  console.log(data);
+  let row = document.createElement('tr');
+  let cantidad = document.createElement('td');
+  let nombre = document.createElement('td');
+  let precio = document.createElement('td');
+  cantidad.innerHTML='2';
+  nombre.innerHTML=[0];
+  precio.innerHTML=[1];
+  row.appendChild(cantidad);
+  row.appendChild(nombre);
+  row.appendChild(precio);
+  let tabla = document.getElementById('cuerpo');
+  tabla.appendChild(row);
+ });
+
+</script>
 @stop

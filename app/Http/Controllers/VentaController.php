@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Catalogo;
 use App\Models\Cliente;
 use App\Models\Mpago;
 use App\Models\User;
+use App\Models\Vdetalle;
 use App\Models\Venta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -32,14 +34,17 @@ class VentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
         $venta = new Venta();
         $cliente = Cliente::pluck('nombre', 'id');
         $mpago = Mpago::pluck('nombre', 'id');
         $user = User::pluck('name', 'id');
-        return view('control.vendedor.ventas.create', compact('venta', 'cliente', 'mpago', 'user'));
+        $searchText = $request->searchText;
+        $catalogos = Catalogo::orderBy('nombre','asc')
+        ->get();
+        return view('control.vendedor.ventas.create', compact('venta', 'cliente', 'mpago', 'user', 'searchText', 'catalogos'));
     }
 
     /**
@@ -61,6 +66,13 @@ class VentaController extends Controller
             $venta->codComprobante = $request->codComprobante;
             $venta->tipoComprobante = $request->tipoComprobante;
             $venta->save();
+            $vdetalle = new Vdetalle();
+            $vdetalle -> venta_id = $request -> venta_id;
+            $vdetalle -> catalogo_id = $request -> catalogo_id;
+            $vdetalle -> cantidad = $request -> cantidad;
+            $vdetalle -> precio = $request -> precio;
+            $vdetalle -> save();
+            $catalogo = Catalogo::findOrFail($request->catalogo_id);
         } catch (\Throwable $th) {
             //throw $th;
         return Redirect::route('control.vendedor.ventas.index')
