@@ -18,7 +18,7 @@
                     {!! Form::label(null, 'nombre', [null]) !!}
                     {!! Form::text('nombre', $proveedore->nombre, ['class' => 'form-control']) !!}
                     {!! Form::label(null, 'Ruc', [null]) !!}
-                    {!! Form::number('Ruc', $proveedore->Ruc, ['class'=> 'form-control']) !!}
+                    {!! Form::text('Ruc', $proveedore->Ruc, ['class'=> 'form-control']) !!}
                     {!! Form::label(null, 'contacto', [null]) !!}
                     {!! Form::text('contacto', $proveedore->contacto, ['class'=> 'form-control']) !!}
                     {!! Form::label(null, 'direccion', [null]) !!}

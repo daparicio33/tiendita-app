@@ -30,7 +30,7 @@
     <td>{{ $user->password}}</td>
    <td style="text-align: center; width: 160px">
     <td>
-      <a href="{{ route('control.usuarios.edit', $user->id) }}">
+      <a href="{{ route('control.administrador.usuarios.edit', $user->id) }}">
         <button class="btn btn-primary">
             <i class="far fa-edit"></i> Editar
         </button>
@@ -44,7 +44,7 @@
       </a>
     </td>
   </tr>
-  @include('control.usuarios.modal')
+  @include('control.administrador.usuarios.modal')
   @endforeach
 
     <tbody>

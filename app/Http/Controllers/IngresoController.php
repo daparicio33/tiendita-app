@@ -22,7 +22,7 @@ class IngresoController extends Controller
     {
         //
         $ingresos = Compra::all();
-        return view('control.compras.ingresos.index', compact('ingresos'));
+        return view('control.administrador.compras.ingresos.index', compact('ingresos'));
     }
 
     /**
@@ -34,7 +34,7 @@ class IngresoController extends Controller
     {
         //
         $ingreso = new Compra();
-        return view('control.compras.ingresos.create', compact('ingreso'));
+        return view('control.administrador.compras.ingresos.create', compact('ingreso'));
     }
 
     /**
@@ -59,10 +59,10 @@ class IngresoController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.compras.ingresos.index')
+            return Redirect::route('control.administrador.compras.ingresos.index')
             ->with('error','ocurrió un error al intentar guardar los datos');
         }
-        return Redirect::route('control.compras.ingresos.index')
+        return Redirect::route('control.administrador.compras.ingresos.index')
         ->with('info', 'los datos se guardaron correctamente');
     }
 
@@ -87,7 +87,7 @@ class IngresoController extends Controller
     {
         //
         $ingreso = Compra::findOrFail($id);
-        return view('control.compras.ingresos.edit', compact('ingreso'));
+        return view('control.administrador.compras.ingresos.edit', compact('ingreso'));
     }
 
     /**
@@ -113,10 +113,10 @@ class IngresoController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.compras.ingresos.index')
+            return Redirect::route('control.administrador.compras.ingresos.index')
             ->with('error','ocurrió un error al intentar actualizar los datos');
         }
-        return Redirect::route('control.compras.ingresos.index')
+        return Redirect::route('control.administrador.compras.ingresos.index')
         ->with('info', 'los datos se actualizaron correctamente');
     }
 
@@ -137,10 +137,10 @@ class IngresoController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.compras.ingresos.index')
+            return Redirect::route('control.administrador.compras.ingresos.index')
             ->with('error','ocurrió un error al intentar eliminar los datos');
         }
-        return Redirect::route('control.compras.ingresos.index')
+        return Redirect::route('control.administrador.compras.ingresos.index')
         ->with('info', 'los datos se eliminaron correctamente');
     }
 }

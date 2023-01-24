@@ -22,7 +22,7 @@ class TpagoController extends Controller
     {
         //
         $mpagos = Mpago::all();
-        return view('control.tipospago.index', compact('mpagos'));
+        return view('control.administrador.tipospago.index', compact('mpagos'));
     }
 
     /**
@@ -34,7 +34,7 @@ class TpagoController extends Controller
     {
         //
         $mpago = new Mpago();
-        return view('control.tipospago.create', compact('mpago'));
+        return view('control.administrador.tipospago.create', compact('mpago'));
     }
 
     /**
@@ -55,10 +55,10 @@ class TpagoController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.tipospago.index')
+            return Redirect::route('control.administrador.tipospago.index')
             ->with('error','ocurrió un error al intentar guardar los datos');
         }
-        return Redirect::route('control.tipospago.index')
+        return Redirect::route('control.administrador.tipospago.index')
         ->with('info', 'los datos se guardaron correctamente');
     }
 
@@ -83,7 +83,7 @@ class TpagoController extends Controller
     {
         //
         $mpago = Mpago::findOrFail($id);
-        return view('control.tipospago.edit', compact('mpago'));
+        return view('control.administrador.tipospago.edit', compact('mpago'));
     }
 
     /**
@@ -105,10 +105,10 @@ class TpagoController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.tipospago.index')
+            return Redirect::route('control.administrador.tipospago.index')
             ->with('error','ocurrió un error al intentar actualizar los datos');
         }
-        return Redirect::route('control.tipospago.index')
+        return Redirect::route('control.administrador.tipospago.index')
         ->with('info', 'los datos se actualizaron correctamente');
     }
 
@@ -129,10 +129,10 @@ class TpagoController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.tipospago.index')
+            return Redirect::route('control.administrador.tipospago.index')
             ->with('error','ocurrió un error al intentar eliminar los datos');
         }
-        return Redirect::route('control.tipospago.index')
+        return Redirect::route('control.administrador.tipospago.index')
         ->with('info', 'los datos se eliminaron correctamente');
     }
 }
