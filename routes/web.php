@@ -8,6 +8,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProveedoreController;
 use App\Http\Controllers\TpagoController;
 use App\Http\Controllers\VentaController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +29,7 @@ Route::get('/control', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+/* Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); */
 
 //rutas para administrador
 Route::resource('control/administrador/productos/catalogos', CatalogoController::class)
