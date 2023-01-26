@@ -78,7 +78,7 @@
               </div>
               <div class="col-ms-12 col-md-2">
                 {!! Form::label(null, 'total', [null]) !!}
-                {!! Form::number('total', $venta->total, ['class'=>'form-control']) !!}
+                {!! Form::label(null, $venta->total, ['class'=>'form-control','id'=>'total-label']) !!}
               </div>
             </div>
             <table class="table">
@@ -151,13 +151,28 @@
   if(verificar){
     let c_cantidad = document.getElementById("cant_"+select.value);
     c_cantidad.innerHTML = parseInt(c_cantidad.innerHTML) + parseInt(txt_cantidad.value);
+    let subto = document.getElementById("subt_"+select.value);
+    subto.innerHTML = parseInt(c_cantidad.innerHTML) * parseInt(txt_precio.value);
+    console.log(subto)
   }else{
     
     
     tabla.appendChild(row);
+
+    let subto = document.getElementById("subt_"+select.value);
+    subto.innerHTML = parseInt(txt_precio.value);
   }
-  let subto = document.getElementById("subt_"+select.value);
-  subto.innerHTML = parseInt(txt_cantidad.value) * parseInt(txt_precio.value);
+
+  let subtotalCells = document.querySelectorAll("[id^='subt_']");
+  let total = 0;
+
+    for (let i = 0; i < subtotalCells.length; i++) {
+    total += parseInt(subtotalCells[i].innerHTML);
+    document.getElementById("total-label").innerHTML = total;
+    console.log(total);
+  }
+
+
 
 });
 
