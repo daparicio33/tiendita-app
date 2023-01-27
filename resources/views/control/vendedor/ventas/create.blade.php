@@ -8,122 +8,118 @@
 {!! Form::open(['route'=>'control.vendedor.ventas.create','method'=>'get','role'=>'search']) !!}
 <div class="row">
   <div class="col-sm-12">
-    <div class="input-group mb-3 col-md-3  col-sm-12 col-md-3">
-      <input type="text" name="search_dni"  class="form-control" placeholder="ingrese dni para buscar">
-      <div class="input-group-prepend">
-        <button class="btn btn-outline-primary" id="btn_search" type="submit"><i class="fas fa-search"></i></button>
-      </div>
-    </div>
-    @if (isset($cliente))
-    <input type="hidden" value="{{ $cliente->id }}" name="">
-    @endif
-    <div class="row">
-      <div class="col-sm-12 col-md-4">
-        <label for="">Nombre</label>
-        {!! Form::text('nombre', $cliente->nombre, ['class'=>'form-control']) !!}
-      </div>
-      <div class="col-sm-12 col-md-3">
-        <label for="">Telefono</label>
-        {!! Form::text('telefono', $cliente, ['class'=>'form-control']) !!}
-      </div>
-      <div class="col-sm-12 col-md-4">
-        <label for="">Direccion</label>
-        {!! Form::text('direccion', $cliente, ['class'=>'form-control']) !!}
+    <div class="card">
+      <div class="card-body">
+        <div class="input-group mb-3 col-md-3  col-sm-12 col-md-3">
+          <input type="text" name="search_dni"  class="form-control" placeholder="ingrese dni para buscar">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-primary" id="btn_search" type="submit"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="row">
+          @if (isset($cliente))
+          <input type="hidden" value="{{ $cliente->id }}" name="">
+            <div class="col-sm-12 col-md-3">
+              <label for="">Nombre</label>
+              {!! Form::text('nombre', $cliente->nombre, ['class'=>'form-control']) !!}
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <label for="">Telefono</label>
+              {!! Form::text('telefono', $cliente->telefono, ['class'=>'form-control']) !!}
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <label for="">Direccion</label>
+              {!! Form::text('direccion', $cliente->direccion, ['class'=>'form-control']) !!}
+            </div>
+            @endif
+        </div>
+        
       </div>
     </div>
   </div>
-
+</div>
 {!! Form::close() !!}
 
 <div class='row'>
-  <div class="col-sm-12 col-md-12 col-lg-12">
-  <div class="card">
-  </div>
-     <div class="card-body">
-      {!! Form::open(['route'=>'control.vendedor.ventas.store','method'=>'post']) !!}
-               <div class="row">
-                 
-                 <div class="col-sm-12 col-md-2">
-                  {!! Form::label(null, 'fecha', [null]) !!}
-                  {!! Form::date('fecha', $venta->fecha, ['class'=>'form-control']) !!}
-                </div>
-                
-                <div class="col-sm-12 col-md-2">
-                  {!! Form::label(null, 'tipo de pago', [null]) !!}
-                  {!! Form::select('mpago_id', $mpago, null, ['class'=>'form-control', 'id'=>'mpago_id']) !!}
-                </div>
-                
-                <div class="col-sm-12 col-md-4">
-                  {!! Form::label(null, 'Tipo de comprobante', [null]) !!}
-                  {!! Form::text('tipoComprobante', $venta->tipoComprobante, ['class'=>'form-control']) !!}
-                </div>              
-                </div>
-     {{--        </div> --}}
-            <div class="row">
-              
-            </div>
-            <div class="row">
-              {{-- <div class="col-sm-12 col-md-1 d-block">
-                <label for="">.</label>
-                <a class="btn btn-outline-primary mb-1" id="btn_add" type="button">
-                  <i class="fas fa-plus"></i>
-                </a>
-              </div> --}}
-              <div class="col-sm-12 col-md-7">
-                {!! Form::label('catalogo', 'Producto', [null]) !!}
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <button class="btn btn-outline-primary" id="btn_add" type="button"><i class="fas fa-plus"></i></button>
-                  </div>
-                  <select id="catalogo"  class="form-control" aria-label="Example select with button addon">
-                    <option selected value="0">Elija...</option>
-                    @foreach ($catalogos as $catalogo)
-                      <option value="{{ $catalogo->id }}" >{{ $catalogo->nombre }} - {{ $catalogo->precio }}</option>
-                    @endforeach
-                  </select>
-                </div>
-
-                
-              </div>
-              <div class="col-ms-12 col-md-1">
-                {!! Form::label('cantidad', 'Cant.', [null]) !!}
-                {!! Form::text('cantidad', null, ['class'=>'form-control','id'=>'cantidad']) !!}
-              </div>
-              <div class="col-ms-12 col-md-1">
-                {!! Form::label(null, 'Precio', [null]) !!}
-                {!! Form::text('precio', null, ['class'=>'form-control','id'=>'precio']) !!}
-              </div>
-              <div class="col-ms-12 col-md-2">
-                {!! Form::label(null, 'total', [null]) !!}
-                {!! Form::label(null, $venta->total, ['class'=>'form-control','id'=>'total-label']) !!}
-              </div>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th style="width: 4rem"></th>
-                        <th>Cantidad</th>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                       {{--  <th></th> --}}
-                    </tr>
-                </thead>
-                <tbody id="cuerpo">
-                </tbody>
-            </table>
+  <div class="col-sm-12">
+     <div class="card">
+      <div class="card-body">
+        {!! Form::open(['route'=>'control.vendedor.ventas.store','method'=>'post']) !!}
+        <div class="row">
+           <div class="col-sm-12 col-md-3">
+            {!! Form::label(null, 'fecha', [null]) !!}
+            {!! Form::date('fecha', $venta->fecha, ['class'=>'form-control']) !!}
+          </div>
+          
+          <div class="col-sm-12 col-md-3">
+            {!! Form::label(null, 'tipo de pago', [null]) !!}
+            {!! Form::select('mpago_id', $mpago, null, ['class'=>'form-control', 'id'=>'mpago_id']) !!}
+          </div>
+          
+          <div class="col-sm-12 col-md-5">
+            {!! Form::label(null, 'Tipo de comprobante', [null]) !!}
+            {!! Form::text('tipoComprobante', $venta->tipoComprobante, ['class'=>'form-control']) !!}
+          </div>              
         </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-8">
+          {!! Form::label('catalogo', 'Producto', [null]) !!}
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-primary" id="btn_add" type="button"><i class="fas fa-plus"></i></button>
+            </div>
+            <select id="catalogo"  class="form-control" aria-label="Example select with button addon">
+              <option selected value="0">Elija...</option>
+              @foreach ($catalogos as $catalogo)
+                <option value="{{ $catalogo->id }}" >{{ $catalogo->nombre }} - {{ $catalogo->precio }}</option>
+              @endforeach
+            </select>
           </div>
-          <div class="card-footer">
-            <button class="btn btn-primary" type="submit">
-                Guardar
-            </button>
-          </div>
-        {!! Form::close() !!}
-          </div>
-     </div>
+
+          
+        </div>
+        <div class="col-ms-12 col-md-1">
+          {!! Form::label('cantidad', 'Cant.', [null]) !!}
+          {!! Form::text('cantidad', null, ['class'=>'form-control','id'=>'cantidad']) !!}
+        </div>
+        <div class="col-ms-12 col-md-1">
+          {!! Form::label(null, 'Precio', [null]) !!}
+          {!! Form::text('precio', null, ['class'=>'form-control','id'=>'precio']) !!}
+        </div>
+        <div class="col-ms-12 col-md-2">
+          {!! Form::label(null, 'total', [null]) !!}
+          {!! Form::label(null, $venta->total, ['class'=>'form-control','id'=>'total-label']) !!}
+        </div>
+      </div>
+      </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+        <table class="table-hover table-dark">
+          <thead>
+              <tr>
+                  <th style="width: 4rem"></th>
+                  <th>Cantidad</th>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th>Subtotal</th>
+                 {{--  <th></th> --}}
+              </tr>
+          </thead>
+          <tbody id="cuerpo">
+          </tbody>
+        </table>
+    </div>
+   
   </div>
+<div class="card-footer">
+<button class="btn btn-primary" type="submit">
+    Guardar
+</button>
+</div>
+{!! Form::close() !!}
 </div>
 @stop
 @section('js')
