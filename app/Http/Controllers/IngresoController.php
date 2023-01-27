@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Compra;
+use App\Models\Proveedore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -34,7 +35,8 @@ class IngresoController extends Controller
     {
         //
         $ingreso = new Compra();
-        return view('control.administrador.compras.ingresos.create', compact('ingreso'));
+        $proveedore = Proveedore::pluck('nombre','id');
+        return view('control.administrador.compras.ingresos.create', compact('ingreso', 'proveedore'));
     }
 
     /**
@@ -46,12 +48,12 @@ class IngresoController extends Controller
     public function store(Request $request)
     {
         //
+/*         dd($request->all()); */
         try{
             DB::beginTransaction();
             $ingreso = new Compra();
             $ingreso->fecha = $request->fecha;
-            $ingreso->user_id = $request->user_id;
-            $ingreso->proveedore_id = $request->proveedore->id;
+            $ingreso->proveedore_id = $request->proveedore_id;
             $ingreso->codComprobante = $request->codComprobante;
             $ingreso->tipoComprobante = $request->tipoComprobante;
             $ingreso->save();

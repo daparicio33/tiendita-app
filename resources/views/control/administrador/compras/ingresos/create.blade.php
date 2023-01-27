@@ -17,12 +17,10 @@
                <div class="form-group">
                     {!! Form::label(null, 'fecha', [null]) !!}
                     {!! Form::date('fecha', $ingreso->fecha, ['class' => 'form-control']) !!}
-                    {!! Form::label(null, 'usuario', [null]) !!}
-                    {!! Form::select('user_id', $user, null, ['class'=>'form-control','id'=>'user_id']) !!}
-                    {!! Form::label(null, 'proveedor', [null]) !!}
-                    {!! Form::select('proveedore_id', $proveedore, null, ['class'=>'form-control','id'=>'proveedore_id']) !!}
+                  {!! Form::label(null, 'proveedor', [null]) !!}
+                    {!! Form::select('proveedore_id', $proveedore, null, ['class'=>'form-control','id'=>'id']) !!}
                     {!! Form::label(null, 'codComprobante', [null]) !!}
-                    {!! Form::select('codComprobante', $ingreso->codComprobante, ['class'=> 'form-control']) !!}
+                    {!! Form::text('codComprobante', $ingreso->codComprobante, ['class'=> 'form-control']) !!}
                     {!! Form::label(null, 'tipoComprobante', [null]) !!}
                     {!! Form::text('tipoComprobante', $ingreso->tipoComprobante, ['class'=> 'form-control']) !!}
                 </div>

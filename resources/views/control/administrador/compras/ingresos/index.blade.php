@@ -18,7 +18,6 @@
       <thead>
         <tr>
           <th>Fecha</th>
-          <th>Usuario</th>
           <th>Proveedor</th>
           <th>Codigo de comprobrante</th>
           <th>Tipo de comprobante</th>
@@ -28,13 +27,12 @@
 @foreach ($ingresos as $ingreso)
   <tr>
     <td>{{$ingreso->fecha}}</td>
-   <td>{{$ingreso->user->name}}</td>
-   <td>{{$ingreso->proveedor->nombre}}</td>
+   <td>{{$ingreso->proveedore->nombre}}</td>
    <td>{{$ingreso->codComprobante}}</td>
    <td>{{$ingreso->tipoComprobante}}</td>
    <td style="text-align: center; width: 160px">
     <td>
-      <a href="{{ route('control.admistrador.compras.ingresos.edit', $ingreso->id) }}">
+      <a href="{{ route('control.administrador.compras.ingresos.edit', $ingreso->id) }}">
         <button class="btn btn-primary">
             <i class="far fa-edit"></i> Editar
         </button>
@@ -48,7 +46,7 @@
       </a>
     </td>
   </tr>
-  @include('control.admistrador.compras.ingresos.modal')
+  @include('control.administrador.compras.ingresos.modal')
   @endforeach
 
     <tbody>
