@@ -40,11 +40,12 @@
 </div>
 {!! Form::close() !!}
 
+{!! Form::open(['route'=>'control.vendedor.ventas.store','method'=>'post']) !!}
 <div class='row'>
   <div class="col-sm-12">
      <div class="card">
       <div class="card-body">
-        {!! Form::open(['route'=>'control.vendedor.ventas.store','method'=>'post']) !!}
+        
         <div class="row">
            <div class="col-sm-12 col-md-3">
             {!! Form::label(null, 'fecha', [null]) !!}
@@ -70,7 +71,7 @@
               <button class="btn btn-outline-primary" id="btn_add" type="button"><i class="fas fa-plus"></i></button>
             </div>
             <select id="catalogo"  class="form-control" aria-label="Example select with button addon">
-              <option selected value="0">Elija...</option>
+              <option id="option" selected value="0">Elija...</option>
               @foreach ($catalogos as $catalogo)
                 <option value="{{ $catalogo->id }}" >{{ $catalogo->nombre }} - {{ $catalogo->precio }}</option>
               @endforeach
@@ -105,6 +106,7 @@
                   <th>Nombre</th>
                   <th>Precio</th>
                   <th>Subtotal</th>
+                  
                  {{--  <th></th> --}}
               </tr>
           </thead>
@@ -119,8 +121,9 @@
     Guardar
 </button>
 </div>
-{!! Form::close() !!}
 </div>
+{!! Form::close() !!}
+
 @stop
 @section('js')
 <script>
@@ -152,8 +155,26 @@
   let subtotal = document.createElement('td');
   subtotal.id = 'subt_'+select.value;
   cantidad.innerHTML= txt_cantidad.value;
+  const cantidad_id = document.createElement('input');
+  cantidad_id.type = "text";
+  cantidad_id.name = "cantidad_id[]";
+  cantidad_id.value = txt_cantidad.value;
   nombre.innerHTML = data[0];
+  //Se crea un input dentro de una variable
+  const catalogo_id = document.createElement('input');
+  //Se le da atributos
+  catalogo_id.type="hidden";
+  catalogo_id.name = "catalogo_id[]";
+  catalogo_id.value = select.value;
+  //Aqui se agrega el input
+  nombre.appendChild(catalogo_id);
+  cantidad.appendChild(cantidad_id);
   precio.innerHTML = txt_precio.value;
+  const precio_id = document.createElement('input');
+  precio_id.type = 'text';
+  precio_id.name = 'precio_id[]';
+  precio_id.value = txt_precio.value;
+  precio.appendChild(precio_id);
   row.appendChild(c_btn);
   row.appendChild(cantidad);
   row.appendChild(nombre);
@@ -167,7 +188,6 @@
     c_cantidad.innerHTML = parseInt(c_cantidad.innerHTML) + parseInt(txt_cantidad.value);
     let subto = document.getElementById("subt_"+select.value);
     subto.innerHTML = parseInt(c_cantidad.innerHTML) * parseInt(txt_precio.value);
-    console.log(subto)
   }else{
     
     
@@ -187,6 +207,7 @@
 
     
   }
+
 });
 
   const catalogos = document.getElementById('catalogo');

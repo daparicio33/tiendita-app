@@ -59,6 +59,7 @@ class VentaController extends Controller
     public function store(Request $request)
     {
         //
+        dd($request);
         try {
             $venta = new Venta();
             $venta -> fecha = $request -> fecha;
