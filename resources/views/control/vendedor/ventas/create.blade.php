@@ -4,37 +4,55 @@
 <h1>Nueva venta</h1>
 @stop
 @section('content')
+
+{!! Form::open(['route'=>'control.vendedor.ventas.create','method'=>'get','role'=>'search']) !!}
+<div class="row">
+  <div class="col-sm-12">
+    <div class="input-group mb-3 col-md-3  col-sm-12 col-md-3">
+      <input type="text" name="search_dni"  class="form-control" placeholder="ingrese dni para buscar">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-primary" id="btn_search" type="submit"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+    @if (isset($cliente))
+    <input type="hidden" value="{{ $cliente->id }}" name="">
+    @endif
+    <div class="row">
+      <div class="col-sm-12 col-md-4">
+        <label for="">Nombre</label>
+        {!! Form::text('nombre', $cliente->nombre, ['class'=>'form-control']) !!}
+      </div>
+      <div class="col-sm-12 col-md-3">
+        <label for="">Telefono</label>
+        {!! Form::text('telefono', $cliente, ['class'=>'form-control']) !!}
+      </div>
+      <div class="col-sm-12 col-md-4">
+        <label for="">Direccion</label>
+        {!! Form::text('direccion', $cliente, ['class'=>'form-control']) !!}
+      </div>
+    </div>
+  </div>
+
+{!! Form::close() !!}
+
 <div class='row'>
   <div class="col-sm-12 col-md-12 col-lg-12">
   <div class="card">
   </div>
      <div class="card-body">
       {!! Form::open(['route'=>'control.vendedor.ventas.store','method'=>'post']) !!}
-          {{-- @if (isset($proveedore))
-          <input type="hidden" value="{{ $proveedore->id }}" name="catalogo_d">
-          @endif --}}
-  {{--         <div class="col-sm-6 col-md-12"> --}}
                <div class="row">
-                 <div class="col-sm-12 col-md-7">
-                  {!! Form::label(null, 'usuario', [null]) !!}
-                  {!! Form::select('user_id', $user, null, ['class'=>'form-control','id'=>'user_id']) !!}
-                 </div>
+                 
                  <div class="col-sm-12 col-md-2">
                   {!! Form::label(null, 'fecha', [null]) !!}
                   {!! Form::date('fecha', $venta->fecha, ['class'=>'form-control']) !!}
                 </div>
-                <div class="col-sm-12 col-md-7">
-                  {!! Form::label(null, 'cliente', [null]) !!}
-                  {!! Form::select('cliente_id', $cliente, null, ['class'=>'form-control', 'id'=>'cliente_id']) !!}
-                </div>
+                
                 <div class="col-sm-12 col-md-2">
                   {!! Form::label(null, 'tipo de pago', [null]) !!}
                   {!! Form::select('mpago_id', $mpago, null, ['class'=>'form-control', 'id'=>'mpago_id']) !!}
                 </div>
-                <div class="col-sm-12 col-md-3">
-                  {!! Form::label(null, 'Codigo de comprobante', [null]) !!}
-                  {!! Form::text('codComprobante', $venta->codComprobante, ['class'=>'form-control']) !!}
-                </div>
+                
                 <div class="col-sm-12 col-md-4">
                   {!! Form::label(null, 'Tipo de comprobante', [null]) !!}
                   {!! Form::text('tipoComprobante', $venta->tipoComprobante, ['class'=>'form-control']) !!}
@@ -78,7 +96,7 @@
               </div>
               <div class="col-ms-12 col-md-2">
                 {!! Form::label(null, 'total', [null]) !!}
-                {!! Form::number('total', $venta->total, ['class'=>'form-control']) !!}
+                {!! Form::label(null, $venta->total, ['class'=>'form-control','id'=>'total-label']) !!}
               </div>
             </div>
             <table class="table">
@@ -126,8 +144,8 @@
   //crear botton
   let btn_eliminar = document.createElement('a');
   btn_eliminar.innerHTML="X";
-  btn_eliminar.classList.add("btn");
-  btn_eliminar.classList.add("btn-danger");
+  btn_eliminar.setAttribute('class', 'btn btn-danger');
+  btn_eliminar.setAttribute('onClick', 'eliminar('+select.value+')');
   c_btn.appendChild(btn_eliminar);
   let cantidad = document.createElement('td');
   //nombre para la columna cantidad
@@ -151,14 +169,28 @@
   if(verificar){
     let c_cantidad = document.getElementById("cant_"+select.value);
     c_cantidad.innerHTML = parseInt(c_cantidad.innerHTML) + parseInt(txt_cantidad.value);
+    let subto = document.getElementById("subt_"+select.value);
+    subto.innerHTML = parseInt(c_cantidad.innerHTML) * parseInt(txt_precio.value);
+    console.log(subto)
   }else{
     
     
     tabla.appendChild(row);
-  }
-  let subto = document.getElementById("subt_"+select.value);
-  subto.innerHTML = parseInt(txt_cantidad.value) * parseInt(txt_precio.value);
 
+    let subto = document.getElementById("subt_"+select.value);
+    subto.innerHTML = parseInt(txt_precio.value);
+  }
+
+  let subtotalCells = document.querySelectorAll("[id^='subt_']");
+  let total = 0;
+
+    for (let i = 0; i < subtotalCells.length; i++) {
+    total += parseInt(subtotalCells[i].innerHTML);
+    document.getElementById("total-label").innerHTML = total;
+    console.log(total);
+
+    
+  }
 });
 
   const catalogos = document.getElementById('catalogo');
@@ -170,5 +202,14 @@
   cant.value = 1;
   pre.value = data[1];
   });
+
+  function eliminar(id){
+    let row = document.getElementById(id);
+    let subtotal = document.getElementById("subt_"+id).innerHTML;
+    let total = document.getElementById("total-label").innerHTML;
+    document.getElementById("total-label").innerHTML = total - subtotal;
+    row.remove();
+}
+
 </script>
 @stop
