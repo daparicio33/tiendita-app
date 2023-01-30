@@ -20,7 +20,6 @@
           <th>Fecha</th>
           <th>Cliente</th>
           <th>Tipo de pago</th>
-          <th>Usuario</th>
           <th>Total</th>
           <th>Codigo de comprobante</th>
           <th>Tipo de comprobante </th>
@@ -30,9 +29,8 @@
 @foreach ($ventas as $venta)
   <tr>
     <td>{{$venta->fecha}}</td>
-    <td>{{ $venta->cliente->nombre }}</td>
+    <td>{{ $venta->cliente_id->nombre }}</td>
     <td>{{ $venta->mpago->nombre}}</td>
-    <td>{{ $venta->user->nombre }}</td>
     <td>{{ $venta->total }}</td>
     <td>{{ $venta->codComprobante }}</td>
     <td>{{ $venta->tipoComprobante }}</td>
@@ -47,6 +45,13 @@
     <td>
       <a data-toggle="modal" data-target="#modal-delete-{{ $venta->id }}">
          <button class="btn btn-danger">
+           <i class="fas fa-trash-alt"></i> Eliminar
+         </button>
+      </a>
+    </td>
+    <td>
+      <a data-toggle="modal" data-target="#modal-mostrar-{{ $venta->id }}">
+         <button class="btn btn-success">
            <i class="fas fa-trash-alt"></i> Eliminar
          </button>
       </a>

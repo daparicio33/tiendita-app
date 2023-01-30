@@ -7,7 +7,9 @@ use App\Models\Cliente;
 use App\Models\Mpago;
 use App\Models\Vdetalle;
 use App\Models\Venta;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class VentaController extends Controller
@@ -17,6 +19,9 @@ class VentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function __construct()
     {
         return $this->middleware('auth');
@@ -36,6 +41,7 @@ class VentaController extends Controller
     public function create(Request $request)
     {
         //
+        $comprobante = ["Boleta", "Factura"];
         $cliente = null;
         if($request->search_dni){
             $cliente = Cliente::where('dniRuc','=',$request->search_dni)->first();
@@ -47,7 +53,7 @@ class VentaController extends Controller
         $mpago = Mpago::pluck('nombre', 'id');
         $catalogos = Catalogo::orderBy('nombre','asc')
         ->get();
-        return view('control.vendedor.ventas.create', compact('venta','cliente', 'mpago', 'searchText', 'catalogos'));
+        return view('control.vendedor.ventas.create', compact('venta','cliente', 'mpago', 'searchText', 'catalogos', 'comprobante'));
     }
 
     /**
@@ -59,8 +65,9 @@ class VentaController extends Controller
     public function store(Request $request)
     {
         //
-        dd($request);
+       /*  dd($request); */
         try {
+            DB::beginTransaction();
             $venta = new Venta();
             $venta -> fecha = $request -> fecha;
             $venta->cliente_id = $request->cliente_id;
@@ -73,11 +80,13 @@ class VentaController extends Controller
             $vdetalle -> venta_id = $request -> venta_id;
             $vdetalle -> catalogo_id = $request -> catalogo_id;
             $vdetalle -> cantidad = $request -> cantidad;
-            $vdetalle -> precio = $request -> precio;
+            $vdetalle -> precio_id = $request -> precio;
             $vdetalle -> save();
             $catalogo = Catalogo::findOrFail($request->catalogo_id);
+            DB::commit();
         } catch (\Throwable $th) {
             //throw $th;
+            DB::rollBack();
         return Redirect::route('control.vendedor.ventas.index')
         ->with('error','ocurrió un error al intentar guardar los datos');
         }

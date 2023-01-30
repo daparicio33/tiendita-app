@@ -59,7 +59,8 @@
           
           <div class="col-sm-12 col-md-5">
             {!! Form::label(null, 'Tipo de comprobante', [null]) !!}
-            {!! Form::text('tipoComprobante', $venta->tipoComprobante, ['class'=>'form-control']) !!}
+            {!! Form::select('tipoComprobante', $comprobante, null,['class'=>'form-control'] ,['placeholder' => 'Seleccione una opción']) !!}
+
           </div>              
         </div>
       <div class="row">
@@ -80,17 +81,20 @@
 
           
         </div>
+        <div class="col-ms-12">
+          {!! Form::text('cantidad', null, ['class'=>'form-control','id'=>'cantidad', 'style' => 'display: none'])  !!}
+        </div>
         <div class="col-ms-12 col-md-1">
           {!! Form::label('cantidad', 'Cant.', [null]) !!}
-          {!! Form::text('cantidad', null, ['class'=>'form-control','id'=>'cantidad']) !!}
+          {!! Form::text(null, null, ['class'=>'form-control','id'=>'cantidad1', ]) !!}
         </div>
         <div class="col-ms-12 col-md-1">
           {!! Form::label(null, 'Precio', [null]) !!}
-          {!! Form::text('precio', null, ['class'=>'form-control','id'=>'precio']) !!}
+          {!! Form::text('precio', $venta->precio, ['class'=>'form-control','id'=>'precio']) !!}
         </div>
         <div class="col-ms-12 col-md-2">
           {!! Form::label(null, 'total', [null]) !!}
-          {!! Form::label(null, $venta->total, ['class'=>'form-control','id'=>'total-label']) !!}
+          {!! Form::label('total', $venta->total, ['class'=>'form-control','id'=>'total-label']) !!}
         </div>
       </div>
       </div>
@@ -117,9 +121,7 @@
    
   </div>
 <div class="card-footer">
-<button class="btn btn-primary" type="submit">
-    Guardar
-</button>
+  {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
 </div>
 </div>
 {!! Form::close() !!}
@@ -132,10 +134,9 @@
   const select = document.getElementById('catalogo');
   const id = select.value;
   const text = select.options[select.selectedIndex].text;
-  const txt_cantidad = document.getElementById('cantidad');
+  const txt_cantidad = document.getElementById('cantidad1');
   const txt_precio = document.getElementById('precio');
   let data = text.split('-');
-  console.log(data);
   //creamos la fila
   let row = document.createElement('tr');
   row.id = select.value;
@@ -156,7 +157,7 @@
   subtotal.id = 'subt_'+select.value;
   cantidad.innerHTML= txt_cantidad.value;
   const cantidad_id = document.createElement('input');
-  cantidad_id.type = "text";
+  cantidad_id.type = "hidden";
   cantidad_id.name = "cantidad_id[]";
   cantidad_id.value = txt_cantidad.value;
   nombre.innerHTML = data[0];
@@ -171,7 +172,7 @@
   cantidad.appendChild(cantidad_id);
   precio.innerHTML = txt_precio.value;
   const precio_id = document.createElement('input');
-  precio_id.type = 'text';
+  precio_id.type = 'hidden';
   precio_id.name = 'precio_id[]';
   precio_id.value = txt_precio.value;
   precio.appendChild(precio_id);
@@ -181,6 +182,7 @@
   row.appendChild(precio);
   row.appendChild(subtotal);
    let tabla = document.getElementById('cuerpo');
+   let contadd = [];
   //verificar si el producto ya esta en la tabla
   let verificar = document.getElementById(select.value);
   if(verificar){
@@ -188,11 +190,13 @@
     c_cantidad.innerHTML = parseInt(c_cantidad.innerHTML) + parseInt(txt_cantidad.value);
     let subto = document.getElementById("subt_"+select.value);
     subto.innerHTML = parseInt(c_cantidad.innerHTML) * parseInt(txt_precio.value);
+    contadd.push(c_cantidad.innerHTML);
+    console.log(contadd)
   }else{
     
     
     tabla.appendChild(row);
-
+    contadd = 1;
     let subto = document.getElementById("subt_"+select.value);
     subto.innerHTML = parseInt(txt_precio.value);
   }
@@ -203,21 +207,26 @@
     for (let i = 0; i < subtotalCells.length; i++) {
     total += parseInt(subtotalCells[i].innerHTML);
     document.getElementById("total-label").innerHTML = total;
-    console.log(total);
 
     
   }
+  document.getElementById("cantidad").value = contadd;
+
+
+  
 
 });
 
   const catalogos = document.getElementById('catalogo');
   catalogos.addEventListener('change', function(){
-  const cant = document.getElementById('cantidad');
+  const cant = document.getElementById('cantidad1');
   const pre = document.getElementById('precio');
+  contadd = document.getElementById('cantidad');
   text = this.options[this.selectedIndex].text;
   data = text.split('-');
   cant.value = 1;
   pre.value = data[1];
+  contadd.value = 1
   });
 
   function eliminar(id){

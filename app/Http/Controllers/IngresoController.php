@@ -106,7 +106,6 @@ class IngresoController extends Controller
             DB::beginTransaction();
             $ingreso = Compra::findOrFaild($id);
             $ingreso->fecha = $request->fecha;
-            $ingreso->user_id = $request->user_id;
             $ingreso->proveedore_id = $request->proveedore->id;
             $ingreso->codComprobante = $request->codComprobante;
             $ingreso->tipoComprobante = $request->tipoComprobante;
