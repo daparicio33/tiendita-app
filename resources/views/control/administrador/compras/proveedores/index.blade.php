@@ -48,7 +48,7 @@
       </a>
     </td>
   </tr>
-  @include('control.compras.proveedores.modal')
+  @include('control.administrador.compras.proveedores.modal')
   @endforeach
 
     <tbody>

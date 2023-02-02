@@ -58,7 +58,7 @@ class CatalogoController extends Controller
         } catch (\Throwable $th){
             //throw $th;
             DB::rollBack();
-            return Redirect::route('control.administrador.productos.catalogos.index')
+            return Redirect::route('control.administrador.productos.catalogos.create')
             ->with('error','ocurrió un error al intentar guardar los datos');
         }
         return Redirect::route('control.administrador.productos.catalogos.index')

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Catalogo;
 use App\Models\Cliente;
 use App\Models\Mpago;
-use App\Models\User;
 use App\Models\Vdetalle;
 use App\Models\Venta;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class VentaController extends Controller
@@ -18,6 +19,9 @@ class VentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function __construct()
     {
         return $this->middleware('auth');
@@ -37,14 +41,19 @@ class VentaController extends Controller
     public function create(Request $request)
     {
         //
-        $venta = new Venta();
-        $cliente = Cliente::pluck('nombre', 'id');
-        $mpago = Mpago::pluck('nombre', 'id');
-        $user = User::pluck('name', 'id');
+        $comprobante = ["Boleta", "Factura"];
+        $cliente = null;
+        if($request->search_dni){
+            $cliente = Cliente::where('dniRuc','=',$request->search_dni)->first();
+            $cliente->nombre;
+        }
+/*         dd($cliente); */
         $searchText = $request->searchText;
+        $venta = new Venta();
+        $mpago = Mpago::pluck('nombre', 'id');
         $catalogos = Catalogo::orderBy('nombre','asc')
         ->get();
-        return view('control.vendedor.ventas.create', compact('venta', 'cliente', 'mpago', 'user', 'searchText', 'catalogos'));
+        return view('control.vendedor.ventas.create', compact('venta','cliente', 'mpago', 'searchText', 'catalogos', 'comprobante'));
     }
 
     /**
@@ -56,12 +65,13 @@ class VentaController extends Controller
     public function store(Request $request)
     {
         //
+       /*  dd($request); */
         try {
+            DB::beginTransaction();
             $venta = new Venta();
             $venta -> fecha = $request -> fecha;
             $venta->cliente_id = $request->cliente_id;
             $venta->mpago_id = $request->mpago_id;
-            $venta->user_id = $request->user_id;
             $venta->total = $request->total;
             $venta->codComprobante = $request->codComprobante;
             $venta->tipoComprobante = $request->tipoComprobante;
@@ -70,11 +80,13 @@ class VentaController extends Controller
             $vdetalle -> venta_id = $request -> venta_id;
             $vdetalle -> catalogo_id = $request -> catalogo_id;
             $vdetalle -> cantidad = $request -> cantidad;
-            $vdetalle -> precio = $request -> precio;
+            $vdetalle -> precio_id = $request -> precio;
             $vdetalle -> save();
             $catalogo = Catalogo::findOrFail($request->catalogo_id);
+            DB::commit();
         } catch (\Throwable $th) {
             //throw $th;
+            DB::rollBack();
         return Redirect::route('control.vendedor.ventas.index')
         ->with('error','ocurrió un error al intentar guardar los datos');
         }

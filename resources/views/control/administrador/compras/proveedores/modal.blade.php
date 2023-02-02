@@ -1,4 +1,4 @@
-{!! Form::open(['route'=>['control.compras.proveedores.destroy',$proveedore->id],'method'=>'delete']) !!}
+{!! Form::open(['route'=>['control.administrador.compras.proveedores.destroy',$proveedore->id],'method'=>'delete']) !!}
 <div class="modal fade" id="modal-delete-{{ $proveedore->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

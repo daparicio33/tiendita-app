@@ -16,8 +16,6 @@ class CreateComprasTable extends Migration
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('proveedore_id');
             $table->foreign('proveedore_id')->references('id')->on('proveedores');
             $table->string('codComprobante');
