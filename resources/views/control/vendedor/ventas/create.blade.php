@@ -5,6 +5,7 @@
 @stop
 @section('content')
 
+
 {!! Form::open(['route'=>'control.vendedor.ventas.create','method'=>'get','role'=>'search']) !!}
 <div class="row">
   <div class="col-sm-12">
@@ -26,6 +27,31 @@
             <div class="col-sm-12 col-md-3">
               <label for="">Telefono</label>
               {!! Form::text('telefono', $cliente->telefono, ['class'=>'form-control']) !!}
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-outline-primary" id="btn_add" type="button"><i class="fas fa-plus"></i></button>
+                  </div>
+                  <select id="catalogo"  class="form-control" aria-label="Example select with button addon">
+                    <option selected value="0">Elija...</option>
+                    @foreach ($catalogos as $catalogo)
+                      <option value="{{ $catalogo->id }}" >{{ $catalogo->nombre }} - {{ $catalogo->precio }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-ms-12 col-md-1">
+                {!! Form::label('cantidad', 'Cant.', [null]) !!}
+                {!! Form::text('cantidad', null, ['class'=>'form-control','id'=>'cantidad']) !!}
+              </div>
+              <div class="col-ms-12 col-md-1">
+                {!! Form::label(null, 'Precio', [null]) !!}
+                {!! Form::text('precio', null, ['class'=>'form-control','id'=>'precio']) !!}
+              </div>
+              <div class="col-ms-12 col-md-2">
+                {!! Form::label(null, 'total', [null]) !!}
+                {!! Form::label(null, $venta->total, ['class'=>'form-control','id'=>'total-label']) !!}
+              </div>
             </div>
             <div class="col-sm-12 col-md-3">
               <label for="">Direccion</label>
@@ -190,12 +216,15 @@
     c_cantidad.innerHTML = parseInt(c_cantidad.innerHTML) + parseInt(txt_cantidad.value);
     let subto = document.getElementById("subt_"+select.value);
     subto.innerHTML = parseInt(c_cantidad.innerHTML) * parseInt(txt_precio.value);
+
     contadd.push(c_cantidad.innerHTML);
     console.log(contadd)
+
   }else{
     
     
     tabla.appendChild(row);
+
     contadd = 1;
     let subto = document.getElementById("subt_"+select.value);
     subto.innerHTML = parseInt(txt_precio.value);
@@ -212,8 +241,6 @@
   }
   document.getElementById("cantidad").value = contadd;
 
-
-  
 
 });
 
